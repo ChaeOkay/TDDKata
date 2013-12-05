@@ -6,5 +6,7 @@ class Calculator
     @numbers = numbers
   end
 
-
+  def split
+    numbers.split(',')
+  end
 end
