@@ -1,21 +1,5 @@
 require_relative 'tdd-kata-1'
 
-describe Calculator do
-  context '#add' do
-    it 'should return 0, given 0 numbers' do
-      pending
-    end
-
-    it 'should return the number, given 1 number' do
-      pending
-    end
-
-    it 'should return the sum, given 2 numbers' do
-      pending
-    end
-  end
-end
-
 describe Number do
   context 'invalid params' do
     it 'should raise an error if param is not a string' do
@@ -28,6 +12,26 @@ describe Number do
 
     it 'should convert a string into an array of numbers' do
       expect(number.collection).to eq [1,2,3]
+    end
+  end
+end
+
+describe Calculator do
+  before :each do
+    @calculator = Calculator.new(number.collection)
+  end
+
+  context 'given 0 numbers' do
+    let(:number) { Number.new("") }
+    it 'should return 0, given 0 numbers' do
+      expect(@calculator.add).to eq 0
+    end
+  end
+
+  context 'given 2 numbers' do
+    let(:number) { Number.new("25,5") }
+    it 'should return 30' do
+      expect(@calculator.add).to eq 30
     end
   end
 end
