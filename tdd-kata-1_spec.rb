@@ -11,8 +11,8 @@ describe Calculator do
   context 'converting string to integers' do
     let(:calculator) { Calculator.new("1,2,3") }
 
-    it 'should split comma separated numbers' do
-      expect(calculator.split.size).to eq 3
+    it 'should split comma separated numbers into integers' do
+      expect(calculator.convert.first).to be_a Integer
     end
   end
 

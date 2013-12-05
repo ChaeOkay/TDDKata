@@ -6,7 +6,7 @@ class Calculator
     @numbers = numbers
   end
 
-  def split
-    numbers.split(',')
+  def convert
+    numbers.split(',').map! { |number| number.to_i }
   end
 end
