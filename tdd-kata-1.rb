@@ -24,8 +24,7 @@ class Calculator
   end
 
   def display(result)
-    return 0 if result.nil?
-    result
+    result.nil? ? 0 : result
   end
 end
 

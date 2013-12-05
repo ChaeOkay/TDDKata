@@ -23,8 +23,15 @@ describe Calculator do
 
   context 'given 0 numbers' do
     let(:number) { Number.new("") }
-    it 'should return 0, given 0 numbers' do
+    it 'should return 0' do
       expect(@calculator.add).to eq 0
+    end
+  end
+
+  context 'given 1 number' do
+    let(:number) { Number.new("1") }
+    it 'should return 1' do
+      expect(@calculator.add).to eq 1
     end
   end
 
