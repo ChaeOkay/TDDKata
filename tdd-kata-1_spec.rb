@@ -5,11 +5,6 @@ describe Number do
     it 'should raise an error if param is not a string' do
       expect{ Number.new(1)}.to raise_error ArgumentError
     end
-
-    it 'should raise an error if negative numbers are detected' do
-      expect{ Number.new("1,-2,-3,4") }.
-        to raise_error("negatives not allowed: -2,-3")
-    end
   end
 
   context 'converting string to integers' do
@@ -31,28 +26,39 @@ describe Number do
 end
 
 describe Calculator do
-  before :each do
-    @calculator = Calculator.new(number.collection)
-  end
+  context 'positive numbers' do
+    before :each do
+      @calculator = Calculator.new(number.collection)
+    end
 
-  context 'given 0 numbers' do
-    let(:number) { Number.new("") }
-    it 'should return 0' do
-      expect(@calculator.add).to eq 0
+    context '0 integers' do
+      let(:number) { Number.new("") }
+      it 'should return 0' do
+        expect(@calculator.add).to eq 0
+      end
+    end
+
+    context '1 integer' do
+      let(:number) { Number.new("1") }
+      it 'should return 1' do
+        expect(@calculator.add).to eq 1
+      end
+    end
+
+    context '2 integers' do
+      let(:number) { Number.new("25,5") }
+      it 'should return 30' do
+        expect(@calculator.add).to eq 30
+      end
     end
   end
 
-  context 'given 1 number' do
-    let(:number) { Number.new("1") }
-    it 'should return 1' do
-      expect(@calculator.add).to eq 1
-    end
-  end
-
-  context 'given 2 numbers' do
-    let(:number) { Number.new("25,5") }
-    it 'should return 30' do
-      expect(@calculator.add).to eq 30
+  context 'negative numbers' do
+    it 'should raise an error' do
+      expect{
+        number = Number.new("10,-9,-8,7")
+        calculator = Calculator.new(number.collection)
+      }.to raise_error
     end
   end
 end

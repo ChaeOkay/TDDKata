@@ -19,9 +19,6 @@ class Number
   def format_newline(text)
     text.gsub('/n', ',')
   end
-
-  def check_for_negative_numbers
-  end
 end
 
 
@@ -30,6 +27,7 @@ class Calculator
 
   def initialize(numbers)
     @numbers = numbers
+    check_errors
   end
 
   def add
@@ -39,8 +37,14 @@ class Calculator
   def display(result)
     result.nil? ? 0 : result
   end
-end
 
-number = Number.new("1,2,3")
-number.collection
+  def check_errors
+    raise "negatives not allowed: #{negative_numbers.join(',')}" unless
+      negative_numbers.empty?
+  end
+
+  def negative_numbers
+    numbers.select { |number| number < 0 }
+  end
+end
 
