@@ -17,6 +17,11 @@ describe Number do
       number = Number.new("1/n3,4")
       expect(number.collection).to eq [1,3,4]
     end
+
+    it 'should detect a new delimeter' do
+      number = Number.new("//;\n5;3;9")
+      expect(number.collection).to eq [5,3,9]
+    end
   end
 end
 
