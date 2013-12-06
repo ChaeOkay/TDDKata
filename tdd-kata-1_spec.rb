@@ -5,6 +5,11 @@ describe Number do
     it 'should raise an error if param is not a string' do
       expect{ Number.new(1)}.to raise_error ArgumentError
     end
+
+    it 'should raise an error if negative numbers are detected' do
+      expect{ Number.new("1,-2,-3,4") }.
+        to raise_error("negatives not allowed: -2,-3")
+    end
   end
 
   context 'converting string to integers' do
