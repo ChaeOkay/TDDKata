@@ -8,10 +8,14 @@ describe Number do
   end
 
   context 'converting string to integers' do
-    let(:number) { Number.new("1,2,3") }
-
     it 'should convert a string into an array of numbers' do
+      number = Number.new("1,2,3")
       expect(number.collection).to eq [1,2,3]
+    end
+
+    it 'should accept /n as split points' do
+      number = Number.new("1/n3,4")
+      expect(number.collection).to eq [1,3,4]
     end
   end
 end

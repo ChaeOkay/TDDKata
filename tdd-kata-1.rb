@@ -7,7 +7,11 @@ class Number
   end
 
   def collection
-    text.split(',').map! { |number| number.to_i }
+    standardize.split(',').map! { |number| number.to_i }
+  end
+
+  def standardize
+    text.gsub('/n', ',')
   end
 end
 
