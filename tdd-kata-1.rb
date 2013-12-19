@@ -1,4 +1,7 @@
-class Number
+#parses string
+#returns an array of integers
+
+class NumberExtractor
   attr_reader :text, :delimeter, :numbers, :collection
 
   def initialize(text)
