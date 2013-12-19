@@ -7,14 +7,14 @@ class Number
     set_collection
   end
 
-  def set_collection
-    @collection = split_numbers.map! { |number| number.to_i }
-  end
-
   def format(text)
     new_text = text.match(/\/{2}(?<delimeter>.)\n(?<numbers>.*)/) || {}
     @numbers = new_text[:numbers] || format_newline(text)
     @delimeter = new_text[:delimeter] || ','
+  end
+
+  def set_collection
+    @collection = split_numbers.map! { |number| number.to_i }
   end
 
   def format_newline(text)
@@ -31,7 +31,7 @@ class Calculator
   attr_reader :numbers
 
   def initialize(numbers)
-    @numbers = numbers
+    @numbers = numbers  #numbers is an array of integers
     check_errors
   end
 
