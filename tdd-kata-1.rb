@@ -7,7 +7,7 @@ class Number
   end
 
   def collection
-    numbers.split(delimeter).map! { |number| number.to_i }
+    split_numbers.map! { |number| number.to_i }
   end
 
   def format(text)
@@ -18,6 +18,10 @@ class Number
 
   def format_newline(text)
     text.gsub('/n', ',')
+  end
+
+  def split_numbers
+    numbers.split(delimeter)
   end
 end
 
