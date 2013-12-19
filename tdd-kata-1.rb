@@ -1,6 +1,3 @@
-#parses string
-#returns an array of integers
-
 class NumberExtractor
   attr_reader :delimeter, :string_of_numbers, :numbers
 
