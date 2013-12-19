@@ -9,18 +9,18 @@ describe NumberExtractor do
 
   context 'converting string to integers' do
     it 'should convert a string into an array of numbers' do
-      number = NumberExtractor.new("1,2,3")
-      expect(number.collection).to eq [1,2,3]
+      extractor = NumberExtractor.new("1,2,3")
+      expect(extractor.numbers).to eq [1,2,3]
     end
 
     it 'should accept /n as split points' do
-      number = NumberExtractor.new("1/n3,4")
-      expect(number.collection).to eq [1,3,4]
+      extractor = NumberExtractor.new("1/n3,4")
+      expect(extractor.numbers).to eq [1,3,4]
     end
 
     it 'should detect a new delimeter' do
-      number = NumberExtractor.new("//;\n5;3;9")
-      expect(number.collection).to eq [5,3,9]
+      extractor = NumberExtractor.new("//;\n5;3;9")
+      expect(extractor.numbers).to eq [5,3,9]
     end
   end
 end
@@ -28,25 +28,25 @@ end
 describe Calculator do
   context 'positive numbers' do
     before :each do
-      @calculator = Calculator.new(number.collection)
+      @calculator = Calculator.new(extractor.numbers)
     end
 
     context '0 integers' do
-      let(:number) { NumberExtractor.new("") }
+      let(:extractor) { NumberExtractor.new("") }
       it 'should return 0' do
         expect(@calculator.add).to eq 0
       end
     end
 
     context '1 integer' do
-      let(:number) { NumberExtractor.new("1") }
+      let(:extractor) { NumberExtractor.new("1") }
       it 'should return 1' do
         expect(@calculator.add).to eq 1
       end
     end
 
     context '2 integers' do
-      let(:number) { NumberExtractor.new("25,5") }
+      let(:extractor) { NumberExtractor.new("25,5") }
       it 'should return 30' do
         expect(@calculator.add).to eq 30
       end
@@ -56,8 +56,8 @@ describe Calculator do
   context 'negative numbers' do
     it 'should raise an error' do
       expect{
-        number = NumberExtractor.new("10,-9,-8,7")
-        calculator = Calculator.new(number.collection)
+        extractor = NumberExtractor.new("10,-9,-8,7")
+        calculator = Calculator.new(extractor.numbers)
       }.to raise_error
     end
   end

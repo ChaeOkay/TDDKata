@@ -2,22 +2,21 @@
 #returns an array of integers
 
 class NumberExtractor
-  attr_reader :text, :delimeter, :numbers, :collection
+  attr_reader :delimeter, :string_of_numbers, :numbers
 
   def initialize(text)
     raise ArgumentError, 'Argument is not a string' unless text.is_a? String
     format(text)
-    set_collection
   end
 
   def format(text)
     new_text = text.match(/\/{2}(?<delimeter>.)\n(?<numbers>.*)/) || {}
-    @numbers = new_text[:numbers] || format_newline(text)
+    @string_of_numbers = new_text[:numbers] || format_newline(text)
     @delimeter = new_text[:delimeter] || ','
   end
 
-  def set_collection
-    @collection = split_numbers.map! { |number| number.to_i }
+  def numbers
+    @numberes = split_numbers.map! { |number| number.to_i }
   end
 
   def format_newline(text)
@@ -25,7 +24,7 @@ class NumberExtractor
   end
 
   def split_numbers
-    numbers.split(delimeter)
+    string_of_numbers.split(delimeter)
   end
 end
 
