@@ -1,13 +1,14 @@
 class Number
-  attr_reader :text, :delimeter, :numbers
+  attr_reader :text, :delimeter, :numbers, :collection
 
   def initialize(text)
     raise ArgumentError, 'Argument is not a string' unless text.is_a? String
     format(text)
+    set_collection
   end
 
-  def collection
-    split_numbers.map! { |number| number.to_i }
+  def set_collection
+    @collection = split_numbers.map! { |number| number.to_i }
   end
 
   def format(text)
