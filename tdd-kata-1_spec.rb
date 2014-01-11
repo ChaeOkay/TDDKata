@@ -28,25 +28,26 @@ end
 describe Calculator do
   context 'positive numbers' do
     before :each do
-      @calculator = Calculator.new({numbers: extractor.numbers})
+      @calculator = Calculator.new({numbers: numbers })
     end
 
+
     context '0 integers' do
-      let(:extractor) { NumberExtractor.new({string_of_numbers: ""}) }
+      let(:numbers) {[]}
       it 'should return 0' do
         expect(@calculator.add).to eq 0
       end
     end
 
     context '1 integer' do
-      let(:extractor) { NumberExtractor.new({string_of_numbers: "1"}) }
+      let(:numbers) {[1]}
       it 'should return 1' do
         expect(@calculator.add).to eq 1
       end
     end
 
     context '2 integers' do
-      let(:extractor) { NumberExtractor.new({string_of_numbers: "25,5"}) }
+      let(:numbers) {[25, 5]}
       it 'should return 30' do
         expect(@calculator.add).to eq 30
       end
@@ -56,8 +57,7 @@ describe Calculator do
   context 'negative numbers' do
     it 'should raise an error' do
       expect{
-        extractor = NumberExtractor.new({string_of_numbers: "10,-9,-8,7"})
-        calculator = Calculator.new(extractor.numbers)
+        calculator = Calculator.new({numbers: [10, -9, -8, 7]})
       }.to raise_error
     end
   end
