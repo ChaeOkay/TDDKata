@@ -1,5 +1,5 @@
 class NumberExtractor
-  attr_reader :delimeter, :string_of_numbers, :numbers
+  attr_reader :delimeter, :string_of_numbers
 
   def initialize(args)
     text = args[:string_of_numbers]
@@ -8,16 +8,20 @@ class NumberExtractor
   end
 
   def numbers
-    @numberes = split_numbers.map! { |number| number.to_i }
+    split_numbers.map! { |number| number.to_i }
   end
 
 
   private
 
   def format(text)
-    new_text = text.match(/\/{2}(?<delimeter>.)\n(?<numbers>.*)/) || {}
-    @string_of_numbers = new_text[:numbers] || format_newline(text)
-    @delimeter = new_text[:delimeter] || ','
+    parsed_results = parse(text)
+    @string_of_numbers = parsed_results[:numbers] || format_newline(text)
+    @delimeter = parsed_results[:delimeter] || ','
+  end
+
+  def parse(text)
+    text.match(/\/{2}(?<delimeter>.)\n(?<numbers>.*)/) || {}
   end
 
   def format_newline(text)
