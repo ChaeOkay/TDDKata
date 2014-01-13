@@ -1,29 +1,51 @@
 require_relative 'tdd-kata-1'
 
-describe NumberExtractor do
-  context 'invalid params' do
-    it 'should raise an error if param is not a string' do
-      expect{ NumberExtractor.new({string_of_numbers: 1}) }.to raise_error ArgumentError
+describe DelimeterParser do
+  describe '#delimeter' do
+    it 'should detect the delimeter' do
+      expect(DelimeterParser.new('//;').delimeter).to eq ';'
     end
   end
 
-  context 'converting string to integers' do
-    it 'should convert a string into an array of numbers' do
-      extractor = NumberExtractor.new({string_of_numbers: "1,2,3"})
-      expect(extractor.numbers).to eq [1,2,3]
+  describe '#valid?' do
+    it 'should return true for valid delimeter format' do
+      expect(DelimeterParser.new('//?').valid?).to be_true
     end
 
-    it 'should accept /n as split points' do
-      extractor = NumberExtractor.new({string_of_numbers: "1/n3,4"})
-      expect(extractor.numbers).to eq [1,3,4]
-    end
-
-    it 'should detect a new delimeter' do
-      extractor = NumberExtractor.new({string_of_numbers: "//;\n5;3;9"})
-      expect(extractor.numbers).to eq [5,3,9]
+    it 'should return false for invalid delimeter format' do
+      expect(DelimeterParser.new('1,2').valid?).to be_false
     end
   end
 end
+
+
+describe NumberParser do
+  describe '#numbers' do
+    it 'should return numbers' do
+      expect(NumberParser.new('1,2,3').numbers).to eq [1,2,3]
+    end
+
+    it 'should return numbers with a delimeter' do
+      expect(NumberParser.new('4*5*6', '*').numbers).to eq [4,5,6]
+    end
+
+    it 'should raise error if an invalid delimeter is given' do
+      expect{NumberParser.new('7,8,9', ';').numbers}.to raise_error(NumberParser::ParserError)
+    end
+  end
+end
+
+
+describe Parser do
+  it 'should return numbers' do
+    expect(Parser.new("//;\n10;11;12").numbers).to eq [10,11,12]
+  end
+
+  it 'should append a number before a newline if no delimeter is given' do
+    expect(Parser.new("1\n2,3,4").numbers).to eq [1,2,3,4]
+  end
+end
+
 
 describe Calculator do
   context 'positive numbers' do

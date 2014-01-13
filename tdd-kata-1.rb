@@ -1,35 +1,62 @@
-class NumberExtractor
-  attr_reader :delimeter, :string_of_numbers
+class DelimeterParser
+  def initialize(text)
+    @text = text
+  end
 
-  def initialize(args)
-    text = args[:string_of_numbers]
-    raise ArgumentError, 'Argument is not a string' unless text.is_a? String
-    format(text)
+  def delimeter
+    @delimeter ||= ($1 if @text =~ /\/\/(.)/)
+  end
+
+  def valid?
+    !delimeter.nil?
+  end
+end
+
+
+class NumberParser
+  class ParserError < RuntimeError
+  end
+
+  def initialize(text, delimeter)
+    @text = text
+    @delimeter = delimeter || ','
   end
 
   def numbers
-    split_numbers.map! { |number| number.to_i }
+    raise ParserError unless @text.include?(@delimeter)
+    @text.split(@delimeter).map(&:to_i)
+  end
+end
+
+
+class Parser
+  def initialize(text)
+    @text = text
+  end
+
+  def numbers
+    nums = NumberParser.new(number_text, delimeter_parser.delimeter).numbers
+
+    if !delimeter_parser.valid?
+      nums = [first_number] + nums
+    end
+
+    nums
   end
 
 
   private
 
-  def format(text)
-    parsed_results = parse(text)
-    @string_of_numbers = parsed_results[:numbers] || format_newline(text)
-    @delimeter = parsed_results[:delimeter] || ','
+  def number_text
+    @text.split("\n").last
   end
 
-  def parse(text)
-    text.match(/\/{2}(?<delimeter>.)\n(?<numbers>.*)/) || {}
+  def first_number
+    @text.split("\n").first.to_i
   end
 
-  def format_newline(text)
-    text.gsub('/n', ',')
-  end
-
-  def split_numbers
-    string_of_numbers.split(delimeter)
+  def delimeter_parser 
+    DelimeterParser.new(@text)
   end
 end
 
